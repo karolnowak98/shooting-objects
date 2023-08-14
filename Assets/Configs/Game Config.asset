@@ -20,7 +20,7 @@ MonoBehaviour:
     type: 3}
   _maxRotationAngle: 360
   _maxShotDelay: 1
-  _maxTimeToSpawn: 2
+  _spawnDelay: 2
   _projectileSpeed: 10
   _xProjectileSpawnOffset: 0.8
   _cubeLives: 3

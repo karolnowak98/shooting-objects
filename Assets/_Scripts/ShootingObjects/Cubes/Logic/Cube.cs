@@ -92,7 +92,7 @@ namespace ShootingObjects.Cubes.Logic
         
         private void ResetSpawnTimer()
         {
-            _timeLeftToSpawn = _cubeData.MaxTimeToSpawn;
+            _timeLeftToSpawn = _cubeData.SpawnDelay;
             _isSpawning = true;
         }
 

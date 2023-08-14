@@ -13,9 +13,9 @@ namespace ShootingObjects.Cubes.Data
         public float XProjectileSpawnOffset { get; private set; }
         public float MaxRotationAngle { get; private set; }
         public float MaxShotDelay { get; private set; }
-        public float MaxTimeToSpawn { get; private set; }
+        public float SpawnDelay { get; private set; }
         
-        public CubeData(GameObject prefab, Vector3 position, int lives, float xProjectileSpawnOffset, float maxRotationAngle, float maxShotDelay, float maxTimeToSpawn)
+        public CubeData(GameObject prefab, Vector3 position, int lives, float xProjectileSpawnOffset, float maxRotationAngle, float maxShotDelay, float spawnDelay)
         {
             Prefab = prefab;
             Transform = null;
@@ -26,7 +26,7 @@ namespace ShootingObjects.Cubes.Data
             XProjectileSpawnOffset = xProjectileSpawnOffset;
             MaxRotationAngle = maxRotationAngle;
             MaxShotDelay = maxShotDelay;
-            MaxTimeToSpawn = maxTimeToSpawn;
+            SpawnDelay = spawnDelay;
         }
     }
 }

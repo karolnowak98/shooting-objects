@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ShootingObjects.Game.Data
 {
@@ -11,7 +12,7 @@ namespace ShootingObjects.Game.Data
         [SerializeField] private GameObject _projectilePrefab;
         [SerializeField] private float _maxRotationAngle;
         [SerializeField] private float _maxShotDelay;
-        [SerializeField] private float _maxTimeToSpawn;
+        [SerializeField] private float _spawnDelay;
         [SerializeField] private float _projectileSpeed;
         [SerializeField] private float _xProjectileSpawnOffset;
         [SerializeField] private int _cubeLives;
@@ -22,7 +23,7 @@ namespace ShootingObjects.Game.Data
         public GameObject ProjectilePrefab => _projectilePrefab;
         public float MaxRotationAngle => _maxRotationAngle;
         public float MaxShotDelay => _maxShotDelay;
-        public float MaxTimeToSpawn => _maxTimeToSpawn;
+        public float SpawnDelay => _spawnDelay;
         public float ProjectileSpeed => _projectileSpeed;
         public float XProjectileSpawnOffset => _xProjectileSpawnOffset;
         public int CubeLives => _cubeLives;

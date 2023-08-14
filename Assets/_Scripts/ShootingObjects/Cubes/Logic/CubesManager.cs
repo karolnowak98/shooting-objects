@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Global.Logic;
 using Zenject;
 using ShootingObjects.Cubes.Data;
 using ShootingObjects.Game.Data;
 using ShootingObjects.Game.Logic;
+using Object = UnityEngine.Object;
 
 namespace ShootingObjects.Cubes.Logic
 {
@@ -16,6 +18,7 @@ namespace ShootingObjects.Cubes.Logic
         private GameManager _gameManager;
         private GameConfig _gameConfig;
         private ProjectileFactory _projectileFactory;
+        private GameObject _wonCube;
         
         private ICube FindCubeById(int cubeId) => _cubes.Find(cube => cube.InstanceId == cubeId);
         
@@ -26,13 +29,13 @@ namespace ShootingObjects.Cubes.Logic
             _gameConfig = gameConfig;
             _projectileFactory = projectileFactory;
             
-            _gameManager.OnStartGame += SpawnCubes;
+            _gameManager.OnStartGame += InitCubes;
             _gameManager.OnEndGame += ClearCubes;
         }
         
         public void Dispose()
         {
-            _gameManager.OnStartGame -= SpawnCubes;
+            _gameManager.OnStartGame -= InitCubes;
             _gameManager.OnEndGame -= ClearCubes;
         }
         
@@ -48,7 +51,6 @@ namespace ShootingObjects.Cubes.Logic
         {
             var cube = FindCubeById(cubeId);
             if (cube == null) return false;
-
             if (!cube.TryHitCube(projectileId)) return false;
 
             _cubes.Remove(cube);
@@ -70,6 +72,13 @@ namespace ShootingObjects.Cubes.Logic
             return true;
         }
 
+        private void InitCubes(int numberOfCubes)
+        {
+            if (_wonCube != null) Object.Destroy(_wonCube);
+
+            SpawnCubes(numberOfCubes);
+        }
+        
         private void SpawnCubes(int numberOfCubes)
         {
             for (var i = 0; i < numberOfCubes; i++)
@@ -82,7 +91,7 @@ namespace ShootingObjects.Cubes.Logic
         {
             var position = GetRandomSpawnPosition();
             var cubeData = new CubeData(_gameConfig.CubePrefab, position, lives, _gameConfig.XProjectileSpawnOffset, 
-                _gameConfig.MaxRotationAngle, _gameConfig.MaxShotDelay, _gameConfig.MaxTimeToSpawn);
+                _gameConfig.MaxRotationAngle, _gameConfig.MaxShotDelay, _gameConfig.SpawnDelay);
             
             _cubes.Add(new Cube(cubeData, _projectileFactory, isRespawned));
         }
@@ -101,6 +110,10 @@ namespace ShootingObjects.Cubes.Logic
             return new Vector3(halfX, 0f, halfZ);
         }
 
-        private void ClearCubes() => _cubes.Clear();
+        private void ClearCubes()
+        {
+            _wonCube = _cubes.FirstOrDefault()?.Transform.gameObject;
+            _cubes.Clear(); 
+        } 
     }
 }
